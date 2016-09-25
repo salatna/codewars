@@ -1,7 +1,6 @@
 package ru.antalas.codewars;
 
 import java.util.LinkedList;
-import java.util.List;
 
 import static java.lang.Math.sqrt;
 
@@ -12,11 +11,9 @@ public class GapInPrimes {
         // n: right limit, >= m, inclusive
 
         LinkedList<Long> pair = new LinkedList<>();
-        List<Long> primes = populateTo(left);
 
         for (long i = left; i <= right; i++) {
-            if (isPrime(primes, i)) {
-                primes.add(i);
+            if (isPrime(i)) {
                 pair.add(i);
 
                 if (pair.size() == 2) {
@@ -33,26 +30,10 @@ public class GapInPrimes {
         return null;
     }
 
-    private static List<Long> populateTo(long number) {
-        List<Long> primes = new LinkedList<>();
-
-        long i = 2;
-        while (i < number) {
-            if (isPrime(primes, i)) {
-                primes.add(i);
-            }
-            i++;
-        }
-        return primes;
-    }
-
-    private static boolean isPrime(List<Long> primes, long number) {
-        for (Long prime : primes) {
-            if (number % prime == 0) {
+    private static boolean isPrime(long number) {
+        for (long i = 2; i <= (long)sqrt(number); i ++) {
+            if (number % i == 0) {
                 return false;
-            }
-            if (prime > (long)sqrt(number)){
-                return true;
             }
         }
         return true;
