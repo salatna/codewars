@@ -6,19 +6,17 @@ import java.util.List;
 import static java.lang.Math.sqrt;
 
 public class GapInPrimes {
-    private static long FIRST_NON_UNIT_PRIME = 2;
-
     public static long[] gap(int gapSize, long left, long right) {
         // g: gap length >= 2
         // m: left limit, >=2, inclusive
         // n: right limit, >= m, inclusive
 
         LinkedList<Long> pair = new LinkedList<>();
-        List<Long> factors = populateTo(left);
+        List<Long> primes = populateTo(left);
 
         for (long i = left; i <= right; i++) {
-            if (isPrime(factors, i)) {
-                factors.add(i);
+            if (isPrime(primes, i)) {
+                primes.add(i);
                 pair.add(i);
 
                 if (pair.size() == 2) {
@@ -36,28 +34,25 @@ public class GapInPrimes {
     }
 
     private static List<Long> populateTo(long number) {
-        List<Long> factors = new LinkedList<>();
-        factors.add(FIRST_NON_UNIT_PRIME);
+        List<Long> primes = new LinkedList<>();
 
-        long i = FIRST_NON_UNIT_PRIME + 1;
+        long i = 2;
         while (i < number) {
-            if (isPrime(factors, i)) {
-                factors.add(i);
+            if (isPrime(primes, i)) {
+                primes.add(i);
             }
             i++;
         }
-        return factors;
+        return primes;
     }
 
-    private static boolean isPrime(List<Long> factors, long number) {
-        if (number % 2 == 0) return false;
-
-        for (Long factor : factors) {
-            if (factor > (long)sqrt(number)){
-                return true;
-            }
-            if (number % factor == 0) {
+    private static boolean isPrime(List<Long> primes, long number) {
+        for (Long prime : primes) {
+            if (number % prime == 0) {
                 return false;
+            }
+            if (prime > (long)sqrt(number)){
+                return true;
             }
         }
         return true;
